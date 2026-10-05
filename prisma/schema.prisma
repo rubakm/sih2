@@ -1,0 +1,47 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Port {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  maxDraft      Float
+  maxLoa        Float
+  maxBeam       Float
+  dischargeRate Float
+  waitPriorDays Float
+  source        String
+  confidence    String   // high, med, low
+  lastVerified  String
+  notes         String
+}
+
+model Vessel {
+  id          String @id @default(cuid())
+  name        String @unique
+  dwt         Float
+  loa         Float
+  beam        Float
+  designDraft Float
+  burnPerDay  Float
+}
+
+model Origin {
+  id                 String @id @default(cuid())
+  name               String @unique
+  distanceToParadipNm Float
+  loadDraftCap       Float
+}
+
+model Plan {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  title      String
+  inputsJson String
+  resultJson String
+}
